@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ben Music</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/fontawesome.min.js"> -->
+</head>
+<body>
+    <div class="containers">
+        <div class="cards">
+            <nav>
+                <div class="circle">
+                    <!-- <i class="fa-solid fa-angle-left"></i> -->
+                    <i class="fa-solid fa-download" onclick="downloadAudio()"></i>
+                </div>
+                <div class="h1f"><h3>▫◼️⬜Ben Music⬜◼️▫️</h3></div>
+                <div class="circle">
+                    <i class="fa-solid fa-bars"> </i>
+                </div>
+            </nav>
+            <img id="song_img" class="song-img" src="../MusiC Ben/img/Vengamavan.jpg.jpg" alt="">
+            <h1 id="song_name"></h1>
+            <marquee><p id="artist"></p></marquee>
+            <audio class="song">
+            </audio>
+            <input type="range" value="0" id="progress">
+            <div class="controls">
+                <div><i class="fa-solid fa-heart"></i></div>
+                <div onclick="previous()"><i class="fa-solid fa-backward"></i></div>
+                <div ><i onclick="pla_ys()" class="fa-solid fa-play" id="ctrlIcon"></i></div>
+                <div onclick="next()"><i class="fa-solid fa-forward"></i></div>
+                <div><i class="fa-solid fa-shuffle"></i></div>
+            </div>
+
+        </div>
+    </div>
+    <script type="module" src="../MusiC Ben/songs details/songlist.js"></script>
+    <script >
+
+         let song_obj=[{
+    title:"Arabic Kuthu",
+    artist:"Anirudh Ravichander Ft. Jonita Gandhi",
+    img:"../MusiC Ben/img/Beast-Tamil-2022-20220504184736-500x500.jpg",
+    audio:"../MusiC Ben/Audios/m1.mp3"
+},
+{
+    title:"Badass",
+    artist:"Song by Anirudh Ravichander, Hanuman, and Raqueeb Alam",
+    img:"../MusiC Ben/img/Badass-From-Leo-Tamil-2023-20230928162246-500x500.jpg",
+    audio:"../MusiC Ben/Audios/m4.mp3"
+},
+{
+    title:"Jalabulajangu",
+    artist:"Anirudh Ravichandran",
+    img:"../MusiC Ben/img/Don-Tamil-2022-20220512162818-500x500.jpg",
+    audio:"../MusiC Ben/Audios/m2.mp3"
+},
+{
+    title:"So Baby",
+    artist:"Song by Ananthakrrishnan and Anirudh Ravichander",
+    img:"../MusiC Ben/img/images.jpg",
+    audio:"../MusiC Ben/Audios/m3.mp3"
+},
+{
+    title:"Katchi Sera",
+    artist:"Song by Sai Abhyankkar ",
+    img:"../MusiC Ben/img/Katchi-Sera-from-Think-Indie-Tamil-2024-20240122043105-500x500.jpg",
+    audio:"../MusiC Ben/Audios/m6.mp3"
+},
+{
+    title:"Vengamavan",
+    artist:"Song by Chinnaponnu and Hiphop Tamizha",
+    img:"../MusiC Ben/img/Vengamavan.jpg.jpg",
+    audio:"../MusiC Ben/Audios/m5.mp3"
+}
+]
+console.warn(song_obj)
+        let progress =document.getElementById("progress");
+        let song =document.getElementById("song");
+        let ctrlIcon =document.getElementById("ctrlIcon");
+        // let all_song=document.getElementById("song_name");
+        // let artist_name=document.getElementById("artist");
+        let index_no=0;
+        let autoplay=1;
+        let playing_song=false;
+        // array inputs selection
+        let audio_track=document.querySelector("audio");
+        let song_image=document.getElementById("song_img");
+        let song_title=document.getElementById("song_name");
+        let song_artist=document.getElementById("artist");
+        // 
+       
+        function load_track(index_no){
+        // clearInterval(timer);
+
+        audio_track.src=song_obj[index_no].audio;
+        song_title.innerHTML=song_obj[index_no].title;
+        song_image.src=song_obj[index_no].img;
+        song_artist.innerHTML=song_obj[index_no].artist;
+        
+
+       // timer=setInterval(duration_slider(),1000);
+
+    }
+    load_track(index_no)
+    function pla_ys(){
+        if(playing_song==false){
+            play_song();
+        }
+        else{
+            pausesong()
+        }
+    }
+    function play_song(){
+    console.log(audio_track);
+    audio_track.play();
+    playing_song=true;
+    ctrlIcon.classList.add("fa-pause");
+    ctrlIcon.classList.remove("fa-play");
+}
+function pausesong(){
+    audio_track.pause();
+    playing_song=false;
+    ctrlIcon.classList.add("fa-play");
+   ctrlIcon.classList.remove("fa-pause");
+}
+function next(){
+    if(index_no<song_obj.length){
+        index_no +=1;
+        load_track(index_no);
+        play_song();
+    }else{
+        index_no=0;
+        load_track(index_0);
+        play_song();
+    }
+}
+function previous(){
+    if(index_no<song_obj.length-1){
+        index_no-=1;
+        load_track(index_no);
+        play_song();
+
+    }else{
+        index_no=0;
+        load_track(index_0);
+        play_song();
+    }
+}
+        audio_track.onloadedmetadata = function(){
+            progress.max = audio_track.duration;
+            progress.value = audio_track.currentTime; 
+         }
+        if(audio_track.play()){
+            setInterval(()=>{
+                progress.value = audio_track.currentTime;
+            },500)
+        } 
+        progress.onchange = function(){
+            audio_track.play();
+            audio_track.currentTime = progress.value;
+        }
+function downloadAudio() {
+            let audioUrl =`${song_obj[index_no].audio}`;
+            let link = document.createElement('a');
+            link.href = audioUrl;
+            link.download = `${song_obj[index_no].title}.mp3`; 
+            link.click();
+        }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
